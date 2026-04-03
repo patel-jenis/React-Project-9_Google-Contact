@@ -1,9 +1,14 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { addContact } from "../features/contact/contactSlice";
+import GInput from "../utils/GInput";
 
-const ContactForm = ({ contacts, setContacts, edit }) => {
+const ContactForm = ({ contacts, edit }) => {
     const nav = useNavigate();
     const { id } = useParams();
+    const dispatch = useDispatch()
+
     const existing = edit ? contacts.find(c => c.id === parseInt(id)) : null;
     const [form, setForm] = useState(existing || { first: '', last: '', email: '', phone: '', company: '', label: 'Mobile' });
 
@@ -12,24 +17,17 @@ const ContactForm = ({ contacts, setContacts, edit }) => {
     const save = () => {
         if (!form.first.trim()) return alert('First name is required');
         if (edit) {
-            setContacts(cs => cs.map(c => c.id === parseInt(id) ? { ...form, id: parseInt(id) } : c));
-            nav(`/contact/${id}`);
+            // setContacts(cs => cs.map(c => c.id === parseInt(id) ? { ...form, id: parseInt(id) } : c));
         } else {
             const newC = { ...form, id: Date.now() };
-            setContacts(cs => [...cs, newC]);
+            // setContacts(cs => [...cs, newC]);
+            dispatch(addContact(newC));
             nav('/');
         }
     };
 
     const COLORS = ['#1a73e8', '#ea4335', '#34a853', '#fbbc04', '#ab47bc', '#ef6c00', '#00838f', '#c62828', '#2e7d32', '#1565c0'];
     const colorFor = name => COLORS[(name.charCodeAt(0) + (name.charCodeAt(1) || 0)) % COLORS.length];
-
-    const GInput = ({ label, name, val, onChange, type = 'text' }) => (
-        <div className="google-input-wrap">
-            <input className="google-input" type={type} name={name} value={val} onChange={onChange} placeholder=" " autoComplete="off" />
-            <label className="google-label">{label}</label>
-        </div>
-    );
 
     return (
         <div className="form-page">
