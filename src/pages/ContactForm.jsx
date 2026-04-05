@@ -1,16 +1,17 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addContact } from "../features/contact/contactSlice";
+import { addContact, editContact, getContact } from "../features/contact/contactSlice";
 import GInput from "../utils/GInput";
 
 const ContactForm = ({ contacts, edit }) => {
     const nav = useNavigate();
     const { id } = useParams();
     const dispatch = useDispatch()
+    const contact = useSelector((state) => state.contactReducer.contact)
 
-    const existing = edit ? contacts.find(c => c.id === parseInt(id)) : null;
-    const [form, setForm] = useState(existing || { first: '', last: '', email: '', phone: '', company: '', label: 'Mobile' });
+    // const existing = edit ? contacts.find(c => c.id === parseInt(id)) : null;
+    const [form, setForm] = useState(contact);
 
     const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
@@ -18,6 +19,8 @@ const ContactForm = ({ contacts, edit }) => {
         if (!form.first.trim()) return alert('First name is required');
         if (edit) {
             // setContacts(cs => cs.map(c => c.id === parseInt(id) ? { ...form, id: parseInt(id) } : c));
+            dispatch(editContact({ ...form, id: parseInt(id) }));
+            nav(`/contact/${id}`);
         } else {
             const newC = { ...form, id: Date.now() };
             // setContacts(cs => [...cs, newC]);
@@ -28,6 +31,18 @@ const ContactForm = ({ contacts, edit }) => {
 
     const COLORS = ['#1a73e8', '#ea4335', '#34a853', '#fbbc04', '#ab47bc', '#ef6c00', '#00838f', '#c62828', '#2e7d32', '#1565c0'];
     const colorFor = name => COLORS[(name.charCodeAt(0) + (name.charCodeAt(1) || 0)) % COLORS.length];
+
+    useEffect(() => {
+        if (edit) {
+            dispatch(getContact(id))
+        }
+    }, [id, edit, dispatch])
+
+    useEffect(() => {
+        if (contact) {
+            setForm(contact);
+        }
+    }, [contact]);
 
     return (
         <div className="form-page">

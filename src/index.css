@@ -148,8 +148,12 @@ body {
 /* ── LAYOUT ── */
 .app-layout {
   display: flex;
-  margin-top: var(--topbar-height);
+  /* margin-top: var(--topbar-height) !important; */
   height: calc(100vh - var(--topbar-height));
+}
+
+.pt-64 {
+  padding-top: 64px;
 }
 
 /* ── SIDEBAR ── */

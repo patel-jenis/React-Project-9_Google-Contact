@@ -16,6 +16,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <TopBar q={q} setQ={setQ} />
+            <div className='pt-64'></div>
             <div className="app-layout">
                 <Sidebar />
                 <main className="main">
