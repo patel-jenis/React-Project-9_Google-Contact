@@ -7,6 +7,7 @@ import ContactDetail from './pages/ContactDetail';
 import ContactForm from './pages/ContactForm';
 import PlaceholderPage from './pages/PlaceholderPage';
 import { useSelector } from 'react-redux';
+import Trash from './pages/Trash';
 
 const App = () => {
     const [q, setQ] = useState('');
@@ -28,7 +29,7 @@ const App = () => {
                         <Route path="/frequent" element={<PlaceholderPage icon="bi-clock-history" title="Frequently contacted" desc="People you contact most will appear here." />} />
                         <Route path="/directory" element={<PlaceholderPage icon="bi-building" title="Directory" desc="Your organization's contacts will appear here." />} />
                         <Route path="/label/:name" element={<PlaceholderPage icon="bi-bookmark" title="Labels" desc="Contacts you've labeled will appear here." />} />
-                        <Route path="/trash" element={<PlaceholderPage icon="bi-trash" title="Trash" desc="Deleted contacts stay here for 30 days." />} />
+                        <Route path="/trash" element={<Trash />} />
                         <Route path="/merge" element={<PlaceholderPage icon="bi-intersect" title="Merge & fix" desc="Duplicate contacts will appear here." />} />
                         <Route path="/import" element={<PlaceholderPage icon="bi-upload" title="Import contacts" desc="Upload a CSV or vCard file." />} />
                         <Route path="/export" element={<PlaceholderPage icon="bi-download" title="Export contacts" desc="Download your contacts as a CSV or vCard." />} />

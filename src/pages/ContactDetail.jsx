@@ -1,12 +1,17 @@
+import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { deleteContact } from "../features/contact/contactSlice";
 
 const ContactDetail = ({ contacts }) => {
+
+    const dispatch = useDispatch();
+
     const COLORS = ['#1a73e8', '#ea4335', '#34a853', '#fbbc04', '#ab47bc', '#ef6c00', '#00838f', '#c62828', '#2e7d32', '#1565c0'];
     const colorFor = name => COLORS[(name.charCodeAt(0) + (name.charCodeAt(1) || 0)) % COLORS.length];
-    
+
     const initials = c => (c.first[0] + c.last[0]).toUpperCase();
     const fullName = c => `${c.first} ${c.last}`;
-    
+
     const { id } = useParams();
     const nav = useNavigate();
     const c = contacts.find(x => x.id === parseInt(id));
@@ -40,6 +45,15 @@ const ContactDetail = ({ contacts }) => {
                 <button className="detail-action-btn"><i className="bi bi-envelope"></i> Email</button>
                 <button className="detail-action-btn"><i className="bi bi-chat"></i> Message</button>
                 <button className="detail-action-btn"><i className="bi bi-camera-video"></i> Video</button>
+                <button
+                    className="detail-action-btn"
+                    onClick={() => {
+                        dispatch(deleteContact(parseInt(id)));
+                        nav('/');
+                    }}
+                >
+                    <i className="bi bi-trash"></i> Delete
+                </button>
                 <button className="detail-action-btn"><i className="bi bi-three-dots"></i> More</button>
             </div>
 

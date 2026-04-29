@@ -20,13 +20,13 @@ const ContactForm = ({ contacts, edit }) => {
         if (edit) {
             // setContacts(cs => cs.map(c => c.id === parseInt(id) ? { ...form, id: parseInt(id) } : c));
             dispatch(editContact({ ...form, id: parseInt(id) }));
-            nav(`/contact/${id}`);
+            // nav(`/contact/${id}`);
         } else {
             const newC = { ...form, id: Date.now() };
             // setContacts(cs => [...cs, newC]);
             dispatch(addContact(newC));
-            nav('/');
         }
+        nav('/');
     };
 
     const COLORS = ['#1a73e8', '#ea4335', '#34a853', '#fbbc04', '#ab47bc', '#ef6c00', '#00838f', '#c62828', '#2e7d32', '#1565c0'];
