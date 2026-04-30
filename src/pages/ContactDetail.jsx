@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { deleteContact } from "../features/contact/contactSlice";
+import { deleteContact, toggleFavorite } from "../features/contact/contactSlice";
 
 const ContactDetail = ({ contacts }) => {
 
@@ -23,7 +23,13 @@ const ContactDetail = ({ contacts }) => {
                 <button className="icon-btn" onClick={() => nav(-1)} title="Back"><i className="bi bi-arrow-left"></i></button>
                 <div style={{ flex: 1 }}></div>
                 <Link to={`/edit/${c.id}`} className="icon-btn" title="Edit"><i className="bi bi-pencil"></i></Link>
-                <button className="icon-btn" title="Favorite"><i className="bi bi-star"></i></button>
+                <button
+                    className="icon-btn"
+                    title="Favorite"
+                    onClick={() => dispatch(toggleFavorite(c.id))}
+                >
+                    <i className={`bi ${c.favorite ? "bi-star-fill" : "bi-star"}`}></i>
+                </button>
                 <button className="icon-btn" title="More"><i className="bi bi-three-dots-vertical"></i></button>
             </div>
 

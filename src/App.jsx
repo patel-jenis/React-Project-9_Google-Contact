@@ -8,10 +8,10 @@ import ContactForm from './pages/ContactForm';
 import PlaceholderPage from './pages/PlaceholderPage';
 import { useSelector } from 'react-redux';
 import Trash from './pages/Trash';
+import Favorites from './pages/Favorites';
 
 const App = () => {
     const [q, setQ] = useState('');
-    // const [contacts, setContacts] = useState(SEED);
     const contacts = useSelector((state) => state.contactReducer.contacts)
 
     return (
@@ -26,7 +26,7 @@ const App = () => {
                         <Route path="/contact/:id" element={<ContactDetail contacts={contacts} />} />
                         <Route path="/new" element={<ContactForm contacts={contacts} />} />
                         <Route path="/edit/:id" element={<ContactForm contacts={contacts} edit />} />
-                        <Route path="/frequent" element={<PlaceholderPage icon="bi-clock-history" title="Frequently contacted" desc="People you contact most will appear here." />} />
+                        <Route path="/frequent" element={<Favorites q={q} />} />
                         <Route path="/directory" element={<PlaceholderPage icon="bi-building" title="Directory" desc="Your organization's contacts will appear here." />} />
                         <Route path="/label/:name" element={<PlaceholderPage icon="bi-bookmark" title="Labels" desc="Contacts you've labeled will appear here." />} />
                         <Route path="/trash" element={<Trash />} />

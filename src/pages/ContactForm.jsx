@@ -10,7 +10,6 @@ const ContactForm = ({ contacts, edit }) => {
     const dispatch = useDispatch()
     const contact = useSelector((state) => state.contactReducer.contact)
 
-    // const existing = edit ? contacts.find(c => c.id === parseInt(id)) : null;
     const [form, setForm] = useState(contact);
 
     const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -18,12 +17,9 @@ const ContactForm = ({ contacts, edit }) => {
     const save = () => {
         if (!form.first.trim()) return alert('First name is required');
         if (edit) {
-            // setContacts(cs => cs.map(c => c.id === parseInt(id) ? { ...form, id: parseInt(id) } : c));
             dispatch(editContact({ ...form, id: parseInt(id) }));
-            // nav(`/contact/${id}`);
         } else {
             const newC = { ...form, id: Date.now() };
-            // setContacts(cs => [...cs, newC]);
             dispatch(addContact(newC));
         }
         nav('/');
@@ -58,7 +54,6 @@ const ContactForm = ({ contacts, edit }) => {
                 <button className="btn-cancel" style={{ fontSize: 13 }}><i className="bi bi-camera me-1"></i>Add photo</button>
             </div>
 
-            {/* Name */}
             <div className="field-row">
                 <i className="bi bi-person" style={{ fontSize: 20, color: 'var(--on-surface-variant)', marginTop: 22 }}></i>
                 <div className="field-group">
@@ -76,7 +71,6 @@ const ContactForm = ({ contacts, edit }) => {
 
             <hr className="form-divider" />
 
-            {/* Phone */}
             <div className="field-row">
                 <i className="bi bi-telephone" style={{ fontSize: 20, color: 'var(--on-surface-variant)', marginTop: 22 }}></i>
                 <div className="field-group">
@@ -90,7 +84,6 @@ const ContactForm = ({ contacts, edit }) => {
                 </div>
             </div>
 
-            {/* Email */}
             <div className="field-row">
                 <i className="bi bi-envelope" style={{ fontSize: 20, color: 'var(--on-surface-variant)', marginTop: 22 }}></i>
                 <div className="field-group">

@@ -4,7 +4,7 @@ import SEED from "../../utils/seed";
 const initialState = {
     contacts: JSON.parse(localStorage.getItem("contacts")) || SEED,
     trash: JSON.parse(localStorage.getItem("trash")) || [],
-    contact: { first: '', last: '', email: '', phone: '', company: '', label: 'Mobile' }
+    contact: { first: '', last: '', email: '', phone: '', company: '', label: 'Mobile', favorite: false }
 }
 
 export const contactSlice = createSlice({
@@ -12,7 +12,7 @@ export const contactSlice = createSlice({
     initialState,
     reducers: {
         addContact: (state, action) => {
-            state.contacts.push(action.payload);
+            state.contacts.push({ ...action.payload, favorite: false });
             localStorage.setItem("contacts", JSON.stringify(state.contacts));
         },
         getContact: (state, action) => {
@@ -61,9 +61,18 @@ export const contactSlice = createSlice({
             state.trash = state.trash.filter(c => c && c.id !== id);
 
             localStorage.setItem("trash", JSON.stringify(state.trash));
+        },
+        toggleFavorite: (state, action) => {
+            const id = action.payload;
+
+            state.contacts = state.contacts.map(c =>
+                c.id === id ? { ...c, favorite: !c.favorite } : c
+            );
+
+            localStorage.setItem("contacts", JSON.stringify(state.contacts));
         }
     }
 })
 
-export const { addContact, getContact, editContact, deleteContact, restoreContact, permanentlyDelete } = contactSlice.actions;
+export const { addContact, getContact, editContact, deleteContact, restoreContact, permanentlyDelete, toggleFavorite } = contactSlice.actions;
 export default contactSlice.reducer;
